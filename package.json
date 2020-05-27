@@ -1,0 +1,27 @@
+{
+  "name": "books_manager_api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Frank Atukunda",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=prod node ./build/index.js",
+    "dev": "NODE_ENV=dev nodemon --exec babel-node ./src/index.js",
+    "build": "rm -rf ./build && babel -d ./build ./src -s"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.16"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.0",
+    "@babel/core": "^7.10.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.10.0",
+    "@babel/preset-env": "^7.10.0",
+    "nodemon": "^2.0.4"
+  }
+}
