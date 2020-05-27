@@ -54,3 +54,9 @@ export const userLogin = async (req, res) => {
     return responseUtil.send(res);
   }
 };
+
+export const userProfile = (req, res) => {
+  const loggedInUser = req.user;
+  responseUtil.setSuccess(200, "user profile", loggedInUser);
+  return responseUtil.send(res);
+};
