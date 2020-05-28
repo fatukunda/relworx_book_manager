@@ -5,6 +5,10 @@ import ResponseUtil from "../utils/responseUtil";
 const responseUtil = new ResponseUtil();
 
 const auth = (req, res, next) => {
+  if (!req.header("Authorization")) {
+    responseUtil.setError(401, "Authentication is required!");
+    return responseUtil.send(res);
+  }
   const token = req.header("Authorization").replace("Bearer ", "");
   jwt.verify(token, process.env.JWT_KEY, async (error, decoded) => {
     if (error) {
