@@ -6,6 +6,8 @@ import {
   imageUpload,
   getAllUserBooks,
   fetchSingleUserBook,
+  bookUpdate,
+  deleteBook,
 } from "../controllers/bookController";
 import auth from "../middleware/auth";
 
@@ -21,5 +23,7 @@ router.put(
 );
 router.get("/", auth, getAllUserBooks);
 router.get("/:id", auth, fetchSingleUserBook);
+router.patch("/:id", auth, bookUpdate);
+router.delete("/:id", auth, deleteBook);
 
 export default router;
