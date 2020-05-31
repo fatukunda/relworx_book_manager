@@ -1,6 +1,7 @@
 import express from "express";
 import config from "dotenv";
 import cors from "cors";
+import paginate from "express-paginate";
 import userRouter from "./routes/userRouter";
 import bookRouter from "./routes/bookRouter";
 
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(paginate.middleware(5, 10))
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/books", bookRouter);
 

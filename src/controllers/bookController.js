@@ -3,6 +3,7 @@ import { uploader } from "../config/cloudinary";
 import Book from "../models/Book";
 import ResponseUtil from "../utils/responseUtil";
 import User from "../models/User";
+import paginate from "express-paginate";
 
 const responseUtil = new ResponseUtil();
 
@@ -63,16 +64,21 @@ export const imageUpload = async (req, res) => {
 export const getAllUserBooks = async (req, res) => {
   const { user } = req;
   try {
-    const userBooks = await User.findOne({ _id: user._id }).populate("books");
-    // Convert the received data into an object and remove the properties that shouldn't come
-    // with the response.
-    const userBooksObject = userBooks.toObject();
-    delete userBooksObject.firstName;
-    delete userBooksObject.lastName;
-    delete userBooksObject.email;
-    delete userBooksObject.password;
-    delete userBooksObject._id;
-    responseUtil.setSuccess(200, "User books", userBooksObject);
+    const [results, itemCount] = await Promise.all([
+      Book.find({ user: user._id })
+        .limit(req.query.limit)
+        .skip(req.skip)
+        .lean()
+        .exec(),
+      Book.countDocuments({ user: user._id }),
+    ]);
+    const pageCount = Math.ceil(itemCount / req.query.limit);
+    responseUtil.setSuccess(200, "User books", {
+      books: results,
+      pageCount,
+      itemCount,
+      pages: paginate.getArrayPages(req)(3, pageCount, req.query.page),
+    });
     return responseUtil.send(res);
   } catch (error) {
     responseUtil.setError(400, error);
