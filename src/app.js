@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(paginate.middleware(5, 10))
+app.use(paginate.middleware(4, 10))
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/books", bookRouter);
 
