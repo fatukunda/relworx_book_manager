@@ -17,6 +17,11 @@ export const createBook = async (req, res) => {
     return responseUtil.send(res);
   }
   try {
+    const existingBook = await Book.findOne({ user: user._id, isbn });
+    if (existingBook) {
+      responseUtil.setError(400, "You already have a book with that ISBN!");
+      return responseUtil.send(res);
+    }
     const book = new Book({ ...bookData, user: loggedInUser._id });
     await book.save();
     if (file) {
@@ -94,7 +99,7 @@ export const fetchSingleUserBook = async (req, res) => {
     if (!book) {
       responseUtil.setError(
         404,
-        "Book doesn't exist or you're not authorized to access it."
+        "Book doesn't exist or you're not authorized to access it.",
       );
       return responseUtil.send(res);
     }
@@ -150,7 +155,7 @@ export const deleteBook = async (req, res) => {
     if (!book) {
       responseUtil.setError(
         400,
-        "Book not found or not authorized to access it"
+        "Book not found or not authorized to access it",
       );
       return responseUtil.send(res);
     }

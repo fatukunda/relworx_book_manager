@@ -8,7 +8,6 @@ const bookSchema = new Schema({
   isbn: {
     type: String,
     required: true,
-    unique: true,
   },
   author: {
     type: String,
