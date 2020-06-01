@@ -2,7 +2,6 @@ import { dataUri } from "../middleware/multer";
 import { uploader } from "../config/cloudinary";
 import Book from "../models/Book";
 import ResponseUtil from "../utils/responseUtil";
-import User from "../models/User";
 import paginate from "express-paginate";
 
 const responseUtil = new ResponseUtil();
@@ -82,7 +81,7 @@ export const getAllUserBooks = async (req, res) => {
       books: results,
       pageCount,
       itemCount,
-      pages: paginate.getArrayPages(req)(3, pageCount, req.query.page),
+      pages: paginate.getArrayPages(req)(100, pageCount, req.query.page),
     });
     return responseUtil.send(res);
   } catch (error) {
